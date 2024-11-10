@@ -1,38 +1,62 @@
-import clsx from "clsx";
+import { cn } from "@/lib/utils";
+import { cva } from "class-variance-authority";
 import React, { ComponentPropsWithoutRef, ReactNode } from "react";
 
+const slackVariants = cva(
+  "flex",
+  {
+    variants: {
+      justify: {
+        center: "justify-center",
+        end: "justify-end",
+        start: "justify-start",
+        between: "justify-between",
+        around: "justify-around",
+        evenly: "justify-evenly",
+      },
+      align: {
+        center: "items-center",
+        end: "items-end",
+        start: "items-start",
+      },
+      dir: {
+        row: "flex-row",
+        col: "flex-col",
+        "row-reverse": "flex-row-reverse",
+        "col-reverse": "flex-col-reverse",
+      },
+      wrap: {
+        nowrap: "flex-nowrap",
+        wrap: "flex-wrap",
+      },
+    },
+    defaultVariants: {
+      justify: "center",
+      align: "center",
+      dir: "row",
+    },
+  }
+);
+
 type Props = {
-  vertical?: boolean;
-  align?: "center" | "end" | "start" | "baseline";
+  dir?: "row" | "col" | "row-reverse" | "col-reverse";
+  align?: "center" | "end" | "start";
   justify?: "center" | "end" | "start" | "between" | "around" | "evenly";
   gap?: number;
-  className?: string;
-  wrap?:boolean;
+  wrap?: "nowrap" | "wrap";
   children: ReactNode;
 } & ComponentPropsWithoutRef<"div">;
 
 const Slack = (props: Props) => {
-  const {
-    align = "center",
-    children,
-    justify = "center",
-    vertical = false,
-    gap = 0,
-    className,
-    wrap = false,
-    ...otherPorps
-  } = props;
+  const { dir, justify, align, gap, wrap, children, className, ...otherProps } =
+    props;
   return (
     <div
-      className={clsx(
-        `flex items-${align} justify-${justify} ${
-          vertical ? "flex-col" : "flex-row"
-        } ${wrap ? "flex-wrap" : "flex-nowrap"} ${className}`
-      )}
+      className={cn(slackVariants({ align, justify, wrap, dir, className}))}
       style={{
         gap,
       }}
-      {...otherPorps}
+      {...otherProps}
     >
       {children}
     </div>

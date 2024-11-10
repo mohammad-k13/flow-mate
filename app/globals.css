@@ -4,64 +4,105 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 3.9%;
+    --background: 0 0% 98%;
+    --foreground: 220 15% 12%;
     --card: 0 0% 100%;
-    --card-foreground: 0 0% 3.9%;
+    --card-foreground: 220 15% 15%;
+
     --popover: 0 0% 100%;
-    --popover-foreground: 0 0% 3.9%;
-    --primary: 0 0% 9%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 0 0% 96.1%;
-    --secondary-foreground: 0 0% 9%;
-    --muted: 0 0% 96.1%;
-    --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 89.8%;
-    --input: 0 0% 89.8%;
-    --ring: 0 0% 3.9%;
-    --chart-1: 12 76% 61%;
-    --chart-2: 173 58% 39%;
-    --chart-3: 197 37% 24%;
-    --chart-4: 43 74% 66%;
-    --chart-5: 27 87% 67%;
-    --radius: 0.5rem;
-  }
-  .dark {
-    --background: 0 0% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 0 0% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 0 0% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 0 0% 9%;
-    --secondary: 0 0% 14.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 0 0% 14.9%;
-    --muted-foreground: 0 0% 63.9%;
-    --accent: 0 0% 14.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 0 0% 14.9%;
-    --input: 0 0% 14.9%;
-    --ring: 0 0% 83.1%;
-    --chart-1: 220 70% 50%;
-    --chart-2: 160 60% 45%;
-    --chart-3: 30 80% 55%;
-    --chart-4: 280 65% 60%;
-    --chart-5: 340 75% 55%;
+    --popover-foreground: 220 15% 12%;
+
+    --primary: 200 100% 40%; /* Vivid blue for primary actions */
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 210 15% 90%; /* Soft pastel blue-gray */
+    --secondary-foreground: 220 15% 20%;
+
+    --muted: 220 10% 96%; /* Very light gray for subtle elements */
+    --muted-foreground: 220 15% 30%;
+
+    --accent: 45 85% 55%; /* Warm yellow accent */
+    --accent-foreground: 220 15% 12%;
+
+    --destructive: 0 65% 50%; /* Strong red for errors */
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 10% 92%; /* Light border for separation */
+    --input: 0 0% 100%; /* Inputs match the card background */
+
+    --ring: 200 80% 50%; /* Focus ring for better accessibility */
+    --radius: 0.8rem;
+
+    --box-shadow-1-light: 1px 1px 0 1px #000;
+    --box-shadow-2-light: 2px 2px 0 2px #000;
+    --box-shadow-3-light: 3px 3px 0 3px #000;
+    --box-shadow-4-light: 4px 4px 0 4px #000;
+
+    /* Chart colors */
+    --chart-1: 200 90% 55%; /* Bright blue */
+    --chart-2: 160 65% 40%; /* Teal green */
+    --chart-3: 25 80% 60%; /* Warm orange */
+    --chart-4: 300 70% 60%; /* Vibrant magenta */
+    --chart-5: 340 75% 60%; /* Bright red */
   }
 
-  @font-face {
-    font-family: 'Work Sans';
-    font-style: normal;
-    font-weight: 400;
-    font-display: swap;
-    src: url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap");
+  .dark {
+    --background: 220 15% 7%; /* Darker neutral background */
+    --foreground: 60 10% 92%; /* Light text for contrast */
+    --card: 220 15% 10%; /* Slightly lighter than background */
+    --card-foreground: 60 10% 92%;
+
+    --popover: 220 15% 10%;
+    --popover-foreground: 60 10% 92%;
+
+    --primary: 45 90% 50%; /* Soft golden yellow for highlights */
+    --primary-foreground: 0 0% 10%;
+
+    --secondary: 210 20% 18%; /* Muted dark blue-gray */
+    --secondary-foreground: 60 9.1% 97.8%;
+
+    --muted: 210 10% 12%; /* Subtle muted color */
+    --muted-foreground: 60 9.1% 97.8%;
+
+    --accent: 340 65% 52%; /* Rich purple for accents */
+    --accent-foreground: 60 9.1% 97.8%;
+
+    --destructive: 0 65% 45%; /* Destructive red */
+    --destructive-foreground: 60 9.1% 97.8%;
+
+    --border: 210 8% 28%; /* Softer border color */
+    --input: 210 10% 18%; /* Input background for forms */
+
+    --ring: 220 15% 8%; /* Ring focus outline */
+    --radius: 0.8rem; /* Adjust border-radius for smooth corners */
+
+    --box-shadow-1-light: 1px 1px 0 1px #fff;
+    --box-shadow-2-light: 2px 2px 0 2px #fff;
+    --box-shadow-3-light: 3px 3px 0 3px #fff;
+    --box-shadow-4-light: 4px 4px 0 4px #fff;
+
+    /* Chart colors inspired by the Pitch design */
+    --chart-1: 200 70% 60%; /* Bright blue */
+    --chart-2: 160 65% 45%; /* Teal green */
+    --chart-3: 25 85% 50%; /* Orange */
+    --chart-4: 300 60% 55%; /* Soft magenta */
+    --chart-5: 345 70% 50%; /* Vivid red */
+  }
+}
+
+@layer base {
+  .shadow-border-1 {
+    @apply rounded-md border-[1px] border-foreground shadow-1;
+  }
+  .shadow-border-2 {
+    @apply rounded-md border-2 border-foreground shadow-2;
+  }
+
+  .shadow-border-3 {
+    @apply rounded-md border-[3px] border-foreground shadow-3;
+  }
+
+  .shadow-border-4 {
+    @apply rounded-md border-4 border-foreground shadow-4;
   }
 }

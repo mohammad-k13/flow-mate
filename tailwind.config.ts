@@ -53,7 +53,7 @@ const config: Config = {
       },
       fontFamily: {
         "work-sans": '"Work Sans", sans-serif',
-		// 'dm-sans': ['"DM Sans"', 'sans-serif'],
+        // 'dm-sans': ['"DM Sans"', 'sans-serif'],
       },
       fontWeight: {
         900: "900",
@@ -66,17 +66,20 @@ const config: Config = {
         200: "200",
         100: "100",
       },
-	  boxShadow: {
-		"1": "1px 1px 0 1px #000",
-		"2": "2px 2px 0 2px #000",
-		"3": "3px 3px 0 3px #000",
-		"4": "4px 4px 0 4px #000",
-	  },
+      boxShadow: {
+        "1": "1px 1px 0 1px hsl(var(--foreground))",
+        "2": "2px 2px 0 2px hsl(var(--foreground))",
+        "3": "3px 3px 0 3px hsl(var(--foreground))",
+        "4": "4px 4px 0 4px hsl(var(--foreground))",
+      },
       borderRadius: {
         lg: "var(--radius)",
         md: "calc(var(--radius) - 2px)",
         sm: "calc(var(--radius) - 4px)",
       },
+      backgroundImage: {
+        "section": "url('/Section.png')"
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],
