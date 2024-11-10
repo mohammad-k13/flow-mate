@@ -42,11 +42,10 @@ const WorkflowInputCard = ({
         target: input_edge.target,
       });
     }
-  }, [input_edge, inputText]);
-
+  }, [input_edge, inputText, addInput, id]);
   return (
     <div className="rounded-md p-2 shadow-2 bg-white border-2 border-black relative">
-      <Slack vertical gap={5}>
+      <Slack dir="col" gap={5}>
         {data.title}
         <input
           className="border-2 border-black rounded-md font-sm font-500 p-2 focus:outline-none"
