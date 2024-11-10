@@ -20,7 +20,8 @@ const TagLine = () => {
           <Title level={1} className="text-white max-md:text-3xl md:text-5xl lg:text-6xl xl:text-7xl">
             Pitch Your Startup,
             <br />
-            Connect with Entrepreneurs
+            Connect with Entrepreneurs,
+            Mohammad Keshsavarz
           </Title>
         </div>
       </Slack>
