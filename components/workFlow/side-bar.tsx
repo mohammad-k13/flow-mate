@@ -16,8 +16,8 @@ const CanvasSideBar = () => {
   };
 
   return (
-    <Slack vertical gap={12} className="py-12 w-full">
-      <Slack gap={5} align="center" justify="center" className="" vertical>
+    <Slack dir="col" gap={12} className="py-12 w-full">
+      <Slack gap={5} align="center" justify="center" className="" dir="col">
         <Title level={5}>Your Cards</Title>
         <Text>This is a Description for Each Card</Text>
       </Slack>
@@ -25,7 +25,7 @@ const CanvasSideBar = () => {
       <div className="w-[80%] h-[3px] bg-black my-3"></div>
 
       <Slack
-        vertical
+        dir="col"
         align="start"
         draggable
         className="w-[80%] max-md:w-full h-fit p-2 shadow-3 border-2 border-black rounded-md cursor-grab"
@@ -41,7 +41,7 @@ const CanvasSideBar = () => {
       </Slack>
 
       <Slack
-        vertical
+        dir="col"
         align="start"
         draggable
         className="w-[80%] max-md:w-full h-fit p-2 shadow-3 border-2 border-black rounded-md cursor-grab"

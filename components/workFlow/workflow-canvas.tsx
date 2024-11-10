@@ -61,7 +61,7 @@ const WorkFlowCanvas = () => {
         });
       }
     },
-    [nodes.length]
+    [nodes, setEdges]
   );
 
   const onDrop = (event: DragEvent<HTMLDivElement>) => {
@@ -114,7 +114,7 @@ const WorkFlowCanvas = () => {
   useEffect(() => {
     addNode(nodes);
     addEdges(edges as EdgeType[]);
-  }, [nodes, edges]);
+  }, [nodes, edges,addNode, addEdges]);
 
   return (
     <ReactFlow

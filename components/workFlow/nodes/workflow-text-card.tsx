@@ -21,7 +21,7 @@ const WorkflowTextCard = ({
 
   return (
     <div className="rounded-md p-2 shadow-2 bg-white border-2 border-black w-fit">
-      <Slack vertical gap={2} align="start">
+      <Slack dir="col" gap={2} align="start">
         <Title level={5}>{data.title}</Title>
         <Text>{data.description}</Text>
         <div className="h-[1px] w-3/4 mx-auto bg-black"></div>
