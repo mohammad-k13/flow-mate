@@ -21,7 +21,6 @@ const TagLine = () => {
             Pitch Your Startup,
             <br />
             Connect with Entrepreneurs,
-            Mohammad Keshsavarz
           </Title>
         </div>
       </Slack>
