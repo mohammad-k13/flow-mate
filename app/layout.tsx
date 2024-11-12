@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
-import { InputTextProvider } from "@/providers/input-text-provider";
 import { ReactFlowProvider } from "@xyflow/react";
 import EdgesProvider from "@/providers/edges-provider";
-import Navbar from "@/components/global/navbar";
 import { ThemeProvider } from "@/providers/theme-provider";
 
 export const metadata: Metadata = {
@@ -40,7 +37,6 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <Navbar />
           <ReactFlowProvider>
             <EdgesProvider>{children}</EdgesProvider>
           </ReactFlowProvider>

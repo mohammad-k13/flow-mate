@@ -6,8 +6,12 @@ import Image from "next/image";
 import Title from "../typeography/title";
 import { Button } from "../ui/button";
 import Link from "next/link";
+import { auth } from "@/auth";
 
-const Navbar = () => {
+const Navbar = async () => {
+  const session = await auth();
+  console.dir(session);
+
   return (
     <header className="w-full h-14 border-b-1 border-black">
       <nav className="w-full h-full px-5 max-md:hidden">
@@ -35,9 +39,15 @@ const Navbar = () => {
               </Link>
             </Slack>
             <ModeToggle />
-            <Button className="border-2 ml-2">
-              <Text className="font-600">Dashboard</Text>
-            </Button>
+            <Link href={"/dashboard"}>
+              <Button className="border-2 ml-2">
+                {session?.user ? (
+                  <Text className="font-600">Dashboard</Text>
+                ) : (
+                  <Text>Get Start</Text>
+                )}
+              </Button>
+            </Link>
           </Slack>
         </Slack>
       </nav>
