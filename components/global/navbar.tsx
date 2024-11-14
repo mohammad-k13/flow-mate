@@ -10,10 +10,8 @@ import { auth } from "@/auth";
 
 const Navbar = async () => {
   const session = await auth();
-  console.dir(session);
-
   return (
-    <header className="w-full h-14 border-b-1 border-black">
+    <header className="w-full h-14">
       <nav className="w-full h-full px-5 max-md:hidden">
         <Slack justify="between" className="w-full h-full">
           <Slack gap={10}>
@@ -39,15 +37,17 @@ const Navbar = async () => {
               </Link>
             </Slack>
             <ModeToggle />
-            <Link href={"/dashboard"}>
-              <Button className="border-2 ml-2">
-                {session?.user ? (
+            <Button className="border-2 ml-2">
+              {session?.user ? (
+                <Link href={"/dashboard"}>
                   <Text className="font-600">Dashboard</Text>
-                ) : (
+                </Link>
+              ) : (
+                <Link href={"/login"}>
                   <Text>Get Start</Text>
-                )}
-              </Button>
-            </Link>
+                </Link>
+              )}
+            </Button>
           </Slack>
         </Slack>
       </nav>

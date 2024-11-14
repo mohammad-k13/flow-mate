@@ -3,6 +3,7 @@ import "./globals.css";
 import { ReactFlowProvider } from "@xyflow/react";
 import EdgesProvider from "@/providers/edges-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
+import {Toaster} from "sonner"
 
 export const metadata: Metadata = {
   title: "FlowMate – Empower Your Workflows with Flow-Mate.",
@@ -31,6 +32,7 @@ export default function RootLayout({
         />
       </head>
       <body className="w-screen max-w-[1920px] min-h-screen overflow-hidden mx-auto dark:bg-background">
+        <Toaster richColors expand />
         <ThemeProvider
           attribute="class"
           defaultTheme="dark"

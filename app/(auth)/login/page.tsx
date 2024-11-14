@@ -1,10 +1,10 @@
-import React from 'react'
+import { signIn } from "@/auth";
+import LoginForm from "@/components/form/login-form";
+import React from "react";
 
 //TASK: login user with provider and credetional
 const LoginPage = () => {
-  return (
-    <div>LoginPage</div>
-  )
-}
+  return <LoginForm />
+};
 
-export default LoginPage
+export default LoginPage;
