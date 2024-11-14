@@ -95,9 +95,11 @@ export default function InputFile({ onFileSelect }: Props) {
           <DialogTrigger asChild></DialogTrigger>
           <DialogContent className="max-w-3xl max-h-[80vh] p-0">
             <div className="overflow-auto max-h-[calc(80vh-2rem)] p-6">
-              <img
+              <Image
                 src={preview}
                 alt="Full size preview"
+                width={200}
+                height={200}
                 className="w-full h-auto rounded-lg shadow-md"
               />
             </div>
