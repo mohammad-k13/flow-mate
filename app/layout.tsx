@@ -11,7 +11,7 @@ export const metadata: Metadata = {
     "Automate, Integrate, Elevate – Empower Your Workflows with Flow-Mate.",
     icons: [
       {
-        url: "/Logo.svg"
+        url: "/icons/Logo.svg"
       }
     ]
 };

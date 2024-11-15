@@ -13,12 +13,20 @@ import { Input } from "../ui/input";
 import Title from "@/components/typeography/title";
 import { signIn } from "next-auth/react";
 import { Button } from "../ui/button";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { toast } from "sonner";
 import PasswordInput from "../ui/password-input";
 import Link from "next/link";
+import Icon from "../icons/logo";
+import GithubIcon from "../icons/github-icon";
+import Image from "next/image";
+import GoogleIcon from "../icons/google-icon";
+import { useEffect } from "react";
+import { AuthError } from "next-auth";
 
 const LoginForm = () => {
+  const searchParams = useSearchParams();
+  const error: AuthError['type']  = searchParams.get("error") as AuthError['type']  ;
   const { push } = useRouter();
 
   const form = useForm<z.infer<typeof loginForm>>({
@@ -34,8 +42,8 @@ const LoginForm = () => {
   };
 
   const loginWithGoogle = async () => {
-    await signIn('google', {redirectTo: "/dashboard"})
-  }
+    await signIn("google", { redirectTo: "/dashboard" });
+  };
 
   const onSubmit = async (value: z.infer<typeof loginForm>) => {
     const result = await signIn("credentials", {
@@ -51,22 +59,36 @@ const LoginForm = () => {
     }
   };
 
+  useEffect(() => {
+    if(error === 'OAuthAccountNotLinked') {
+      toast.error("Account Not Linked", {description: "Please sign in using the original method."})
+    }
+  }, [error]);
+
   return (
     <>
-      <Title level={3}>Enter to Your Account</Title>
-      <Text>Start automate your workflow by login to account</Text>
+      <Title level={3} className="text-center">
+        Enter to Your Account
+      </Title>
+      <Text className="text-center">
+        Start automate your workflow by login to account
+      </Text>
 
-
-      <Slack className="providers mt-5" gap={8}>
-        <Button onClick={loginWithGithub} className="!py-1">
+      <Slack
+        className="providers my-5 max-md:flex-col !max-md:gap-[12px] w-full"
+        gap={8}
+      >
+        <Button onClick={loginWithGithub} className="w-full !py-1">
+          <GithubIcon />
           Login with Github
         </Button>
-        <Button onClick={loginWithGithub} className="!py-1">
+        <Button onClick={loginWithGoogle} className="w-full !py-1">
+          <GoogleIcon />
           Login with Google
         </Button>
       </Slack>
 
-      <div className="h-[1px] w-[80%] bg-muted-foreground mx-auto !my-5"></div>
+      <div className="h-[1px] w-full bg-muted-foreground mx-auto my-5"></div>
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}

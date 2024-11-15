@@ -15,7 +15,7 @@ const Navbar = async () => {
       <nav className="w-full h-full px-5 max-md:hidden">
         <Slack justify="between" className="w-full h-full">
           <Slack gap={10}>
-            <Image src={"/Logo.svg"} width={25} height={25} alt="logo" />
+            <Image src={"/icons/Logo.svg"} width={25} height={25} alt="logo" />
             {/* TASK: change font of this text */}
             <Title level={4}>FlowMate</Title>
           </Slack>

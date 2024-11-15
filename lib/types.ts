@@ -24,4 +24,8 @@ export type EdgeType = {
   type: EdgeTypes;
 };
 
-
+export type IconProps = {
+  size?: number;
+  width?: number;
+  height?: number;
+};
