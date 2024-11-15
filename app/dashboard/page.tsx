@@ -19,19 +19,32 @@
 
 // export default Dashboard
 
-import Slack from "@/components/layout/slack";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
 import CanvasSideBar from "@/components/workFlow/side-bar";
 import WorkFlowCanvas from "@/components/workFlow/workflow-canvas";
 import React from "react";
 
 const Dashboard = () => {
   return (
-    <div className="w-full h-full">
-      <Slack className="h-full">
-        <WorkFlowCanvas />
-        <CanvasSideBar />
-      </Slack>
-    </div>
+    <section className="w-full h-screen p-5 font-work-sans">
+      <ResizablePanelGroup direction="horizontal" className="">
+        <ResizablePanel className="rounded-md">
+          <main className="w-[99%] h-[99%] border-4 border-black rounded-md shadow-2">
+            <WorkFlowCanvas />
+          </main>
+        </ResizablePanel>
+
+        <ResizableHandle />
+
+        <ResizablePanel>
+          <main
+            className="w-[99%] h-[99%] border-4 border-black rounded-md shadow-2 bg-yellow-200"
+          >
+            <CanvasSideBar />
+          </main>
+        </ResizablePanel>
+      </ResizablePanelGroup>
+    </section>
   );
 };
 
