@@ -3,23 +3,22 @@
 import {
   addEdge as createEdge,
   Background,
-  Edge,
-  EdgeText,
-  MarkerType,
   ReactFlow,
   ReactFlowInstance,
   useEdgesState,
   useNodesState,
   Connection,
+  NodeChange,
+  EdgeChange,
+  Node,
+  Edge,
 } from "@xyflow/react";
 import React, {
   DragEvent,
   useCallback,
-  useEffect,
   useMemo,
   useState,
 } from "react";
-import WorkflowInputCard from "./nodes/workflow-input-card";
 import WorkflowTextCard from "./nodes/workflow-text-card";
 import { EdgeType, NodeType, NodeTypes, EdgeTypes } from "@/lib/types";
 import InputTextEdge from "./edges/input-text-edge";
@@ -28,13 +27,13 @@ import useCanvas from "@/providers/canvas-provider";
 import { sidebarNodes } from "@/constance";
 import '@xyflow/react/dist/style.css';
 
-
 const WorkFlowCanvas = () => {
   const { addEdge, addNode, edges, nodes } = useCanvas();
-  const [reactFlowInstance, setReactFlowInstance] =
-    useState<ReactFlowInstance>();
+  const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
+  const [currentNodes, setNodes, onNodesChange] = useNodesState<NodeType>(nodes);
+  const [currentEdges, setEdges, onEdgesChange] = useEdgesState<EdgeType>(edges);
 
-  //trigger: When a edge created
+  //trigger: When an edge is created
   const onConnect = useCallback(
     (params: Connection) => {
       const source = nodes.find((node) => node.id === params.source);
@@ -52,10 +51,12 @@ const WorkFlowCanvas = () => {
         };
 
         addEdge(newEdge);
+        setEdges((prevEdges) => [...prevEdges, newEdge]);
       }
     },
-    [nodes, addEdge]
+    [nodes, addEdge, setEdges]
   );
+
   const onDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
 
@@ -63,9 +64,8 @@ const WorkFlowCanvas = () => {
       "application/reactflow"
     ) as NodeTypes;
 
-    //getting position
     if (!reactFlowInstance) return;
-    const position = reactFlowInstance.screenToFlowPosition({
+    const position = reactFlowInstance.project({
       x: event.clientX,
       y: event.clientY,
     });
@@ -76,16 +76,17 @@ const WorkFlowCanvas = () => {
       id: v4(),
       position,
       data: {
-        title: cardInfo?.data.title!,
-        description: cardInfo?.data.description!,
+        title: cardInfo?.data.title || "Untitled",
+        description: cardInfo?.data.description || "",
       },
       type,
     };
 
     addNode(newNode);
+    setNodes((prevNodes) => [...prevNodes, newNode]);
   };
 
-  const onDragOver = useCallback((event: any) => {
+  const onDragOver = useCallback((event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     event.dataTransfer.dropEffect = "move";
   }, []);
@@ -94,7 +95,7 @@ const WorkFlowCanvas = () => {
     () => ({
       Email: WorkflowTextCard,
       Discord: WorkflowTextCard,
-      "Google Driver": WorkflowTextCard,
+      "Google Drive": WorkflowTextCard,
       Instagram: WorkflowTextCard,
     }),
     []
@@ -109,13 +110,16 @@ const WorkFlowCanvas = () => {
 
   return (
     <ReactFlow
-      nodes={nodes}
-      edges={edges}
+      nodes={currentNodes}
+      edges={currentEdges}
+      onNodesChange={onNodesChange}
+      onEdgesChange={onEdgesChange}
       onConnect={onConnect}
       nodeTypes={nodeTypes}
+      edgeTypes={edgeTypes}
       onDrop={onDrop}
       onDragOver={onDragOver}
-      onInit={setReactFlowInstance}
+      
       fitView
     >
       <Background offset={3} color="#000" />
