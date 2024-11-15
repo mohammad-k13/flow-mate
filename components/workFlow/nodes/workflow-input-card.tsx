@@ -3,9 +3,10 @@
 import Slack from "@/components/layout/slack";
 import { NodeType, NodeTypes } from "@/lib/types";
 import useInputText from "@/providers/input-text-provider";
-import useCanvas from "@/store/useCanvas";
 import { Handle, Position } from "@xyflow/react";
 import React, { ChangeEvent, useEffect, useState } from "react";
+import '@xyflow/react/dist/style.css';
+import useCanvas from "@/providers/canvas-provider";
 
 const WorkflowInputCard = ({
   data,
@@ -16,33 +17,17 @@ const WorkflowInputCard = ({
   id: string;
   type: NodeTypes;
 }) => {
-  const { edges, setSourceEdgeData } = useCanvas();
-  const { addInput, inputs, editInputText } = useInputText();
-
-  const input_edge = edges.find((edge) => edge.source === id);
+  const { edges, setEdgeData } = useCanvas();
   const [inputText, setInputText] = useState<string>("");
 
   const handleChanges = (event: ChangeEvent<HTMLInputElement>) => {
     setInputText(event.target.value);
-    editInputText(id, event.target.value);
   };
 
   const onClick = () => {
-    const edgeId = edges.find((edge) => edge.source === id)?.id;
-    if (edgeId) {
-      setSourceEdgeData(edgeId, inputText);
-    }
+    setEdgeData(id, inputText);
   };
 
-  useEffect(() => {
-    if (input_edge) {
-      addInput({
-        currentText: inputText,
-        id,
-        target: input_edge.target,
-      });
-    }
-  }, [input_edge, inputText, addInput, id]);
   return (
     <div className="rounded-md p-2 shadow-2 bg-white border-2 border-black relative">
       <Slack dir="col" gap={5}>

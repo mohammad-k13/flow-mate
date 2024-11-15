@@ -20,13 +20,13 @@
 // export default Dashboard
 
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
-import CanvasSideBar from "@/components/workFlow/side-bar";
+import WorkFlowSidebar from "@/components/workFlow/side-bar";
 import WorkFlowCanvas from "@/components/workFlow/workflow-canvas";
 import React from "react";
 
 const Dashboard = () => {
   return (
-    <section className="w-full h-screen p-5 font-work-sans">
+    <section className="w-full h-full font-work-sans">
       <ResizablePanelGroup direction="horizontal" className="">
         <ResizablePanel className="rounded-md">
           <main className="w-[99%] h-[99%] border-4 border-black rounded-md shadow-2">
@@ -38,9 +38,9 @@ const Dashboard = () => {
 
         <ResizablePanel>
           <main
-            className="w-[99%] h-[99%] border-4 border-black rounded-md shadow-2 bg-yellow-200"
+            className="w-[99%] h-[99%] border-4 border-black rounded-md shadow-2"
           >
-            <CanvasSideBar />
+            <WorkFlowSidebar />
           </main>
         </ResizablePanel>
       </ResizablePanelGroup>

@@ -24,46 +24,38 @@ import WorkflowTextCard from "./nodes/workflow-text-card";
 import { EdgeType, NodeType, NodeTypes, EdgeTypes } from "@/lib/types";
 import InputTextEdge from "./edges/input-text-edge";
 import { v4 } from "uuid";
-import useCanvas from "@/store/useCanvas";
-import { Params } from "next/dist/server/request/params";
+import useCanvas from "@/providers/canvas-provider";
+import { sidebarNodes } from "@/constance";
+import '@xyflow/react/dist/style.css';
 
-const initialNodes: NodeType[] = [];
-const initialEdges: EdgeType[] = [];
 
 const WorkFlowCanvas = () => {
-  const { addNode, addEdges } = useCanvas();
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const { addEdge, addNode, edges, nodes } = useCanvas();
   const [reactFlowInstance, setReactFlowInstance] =
     useState<ReactFlowInstance>();
 
   //trigger: When a edge created
   const onConnect = useCallback(
-    (params: Edge | Connection) => {
+    (params: Connection) => {
       const source = nodes.find((node) => node.id === params.source);
       const target = nodes.find((node) => node.id === params.target);
 
       if (source && target) {
-        const edge_type = `${source.type}-${target.type}` as EdgeTypes;
+        const edgeType = `${source.type}-${target.type}` as EdgeTypes;
 
-        const newEdgePrams: EdgeType = {
+        const newEdge: EdgeType = {
           id: v4(),
           source: source.id,
           target: target.id,
-          data: {
-            currentText: "",
-          },
-          type: edge_type,
+          data: null,
+          type: edgeType,
         };
 
-        setEdges((eds) => {
-          return createEdge(newEdgePrams, eds);
-        });
+        addEdge(newEdge);
       }
     },
-    [nodes, setEdges]
+    [nodes, addEdge]
   );
-
   const onDrop = (event: DragEvent<HTMLDivElement>) => {
     event.preventDefault();
 
@@ -78,17 +70,19 @@ const WorkFlowCanvas = () => {
       y: event.clientY,
     });
 
+    const cardInfo = sidebarNodes.find((node) => node.type === type);
+
     const newNode: NodeType = {
       id: v4(),
       position,
       data: {
-        title: "Drag",
-        description: "This is from drag",
+        title: cardInfo?.data.title!,
+        description: cardInfo?.data.description!,
       },
       type,
     };
 
-    setNodes((nds) => [...nds, newNode]);
+    addNode(newNode);
   };
 
   const onDragOver = useCallback((event: any) => {
@@ -98,8 +92,10 @@ const WorkFlowCanvas = () => {
 
   const nodeTypes = useMemo(
     () => ({
-      feild: WorkflowInputCard,
-      text: WorkflowTextCard,
+      Email: WorkflowTextCard,
+      Discord: WorkflowTextCard,
+      "Google Driver": WorkflowTextCard,
+      Instagram: WorkflowTextCard,
     }),
     []
   );
@@ -111,24 +107,16 @@ const WorkFlowCanvas = () => {
     []
   );
 
-  useEffect(() => {
-    addNode(nodes);
-    addEdges(edges as EdgeType[]);
-  }, [nodes, edges,addNode, addEdges]);
-
   return (
     <ReactFlow
       nodes={nodes}
       edges={edges}
-      onNodesChange={onNodesChange}
-      onEdgesChange={onEdgesChange}
       onConnect={onConnect}
       nodeTypes={nodeTypes}
-      edgeTypes={edgeTypes}
       onDrop={onDrop}
       onDragOver={onDragOver}
-      onInit={setReactFlowInstance as any}
-      // fitView
+      onInit={setReactFlowInstance}
+      fitView
     >
       <Background offset={3} color="#000" />
     </ReactFlow>
