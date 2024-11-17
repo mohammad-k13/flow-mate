@@ -24,3 +24,13 @@ export const loginForm = z.object({
     message: "Password must be at least 7 characters.",
   }),
 });
+
+
+export const createWorkflowForm = z.object({
+  name: z.string().min(1, {
+    message: "Name required",
+  }),
+  description: z.string().min(1, {
+    message: "description required.",
+  }),
+})

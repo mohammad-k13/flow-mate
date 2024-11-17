@@ -16,22 +16,6 @@ export async function POST(req: Request) {
     const isUserExit = await prisma.user.findFirst({ where: { email } });
     if (isUserExit)
       return NextResponse.json({ message: "Email Is Taken" }, { status: 409 });
-    // if (profilePicture && profilePicture.arrayBuffer) {
-    //   const fileExtension = profilePicture.name.split(".").pop();
-    //   const fileName = `${uuidv4()}.${fileExtension}`;
-    //   const uploadDir = path.join(process.cwd(), "public/uploads");
-
-    //   if (!existsSync(uploadDir)) {
-    //     mkdirSync(uploadDir, { recursive: true });
-    //   }
-
-    //   const buffer = Buffer.from(await profilePicture.arrayBuffer());
-
-    //   const filePath = path.join(uploadDir, fileName);
-    //   writeFileSync(filePath, buffer);
-
-    //   imagePath = `/uploads/${fileName}`;
-    // }
 
     const hashedPa = await hash(password, Number(process.env.SALT));
 

@@ -2,6 +2,8 @@
 
 import { EdgeType, NodeType } from "@/lib/types";
 import { createContext, FC, ReactNode, useContext, useState } from "react";
+import OpenAI from "openai";
+import FetchToGPT from "@/lib/generateGptResponse";
 
 type CanvasContextType = {
   nodes: NodeType[];
@@ -9,6 +11,7 @@ type CanvasContextType = {
   addNode: (node: NodeType) => void;
   addEdge: (edge: EdgeType) => void;
   setEdgeData: (sourceNodeId: string, data: any) => void;
+  generateGPTResponse: (prompt: string) => any;
   getEdgeData: (targetNodeId: string) => any;
 };
 const canvasContext = createContext<CanvasContextType>({
@@ -18,6 +21,7 @@ const canvasContext = createContext<CanvasContextType>({
   addEdge: () => {},
   getEdgeData: () => {},
   setEdgeData: () => {},
+  generateGPTResponse: () => {},
 });
 
 type CanvasProviderType = {
@@ -45,6 +49,10 @@ export const CanvasProvider: FC<CanvasProviderType> = ({ children }) => {
     const targetNodeEdge = edges.find((edge) => edge.target === targetNodeId);
     return targetNodeEdge ? targetNodeEdge.data : undefined;
   };
+
+  const generateGPTResponse = async (prompt: string) => {
+    await FetchToGPT(prompt);
+  };
   return (
     <canvasContext.Provider
       value={{
@@ -54,6 +62,7 @@ export const CanvasProvider: FC<CanvasProviderType> = ({ children }) => {
         addNode,
         getEdgeData,
         setEdgeData,
+        generateGPTResponse,
       }}
     >
       {children}

@@ -78,3 +78,55 @@ model Authenticator {
 
   @@id([userId, credentialID])
 }
+
+model Edge {
+  id           String   @id @default(uuid())
+  sourceNodeId String
+  targetNodeId String
+  workflowId   String
+  workflow     Workflow @relation(fields: [workflowId], references: [id])
+  data         Json?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations to Node model
+  sourceNode Node @relation("SourceEdge", fields: [sourceNodeId], references: [id])
+  targetNode Node @relation("TargetEdge", fields: [targetNodeId], references: [id])
+}
+
+model Node {
+  id         String    @id @default(uuid())
+  type       String
+  workflowId String
+  workflow   Workflow  @relation(fields: [workflowId], references: [id])
+  positionX  Float
+  positionY  Float
+  data       NodeData?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  // Reverse relations (no fields or references)
+  sourceEdges Edge[] @relation("SourceEdge")
+  targetEdges Edge[] @relation("TargetEdge")
+}
+
+model Workflow {
+  id          String   @id @default(uuid())
+  name        String
+  description String?
+  nodes       Node[]
+  edges       Edge[]
+  userId      String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model NodeData {
+  id        String   @id @default(uuid())
+  nodeId    String   @unique
+  node      Node     @relation(fields: [nodeId], references: [id])
+  prompt    String?
+  config    Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

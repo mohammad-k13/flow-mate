@@ -1,23 +1,33 @@
+import DashboardSidebar from "@/components/global/dashboard/dashboard-sidebar";
 import Slack from "@/components/layout/slack";
 import { CanvasProvider } from "@/providers/canvas-provider";
 import React, { ReactNode } from "react";
-
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 type Props = {
   children: ReactNode;
 };
 
 const DashboardLayout = ({ children }: Props) => {
   return (
-    <section className="w-full h-screen">
-      <Slack className="h-full">
-        <aside className="w-fit p-5 bg-yellow-300 h-full"></aside>
-        <main className="w-full h-full">
-          <Slack className="h-full p-2">
-            <CanvasProvider>{children}</CanvasProvider>
+    <SidebarProvider>
+      <section className="w-full h-screen">
+        <Slack className="w-full h-full">
+          <DashboardSidebar />
+          <Slack dir="col" className="w-full h-full">
+            <header className="h-[50px] w-full"></header>
+            <main
+              className="w-full"
+              style={{ height: "calc(100vh - 50px)" }}
+            >
+              <Slack className="h-full p-2">
+                <SidebarTrigger />
+                <CanvasProvider>{children}</CanvasProvider>
+              </Slack>
+            </main>
           </Slack>
-        </main>
-      </Slack>
-    </section>
+        </Slack>
+      </section>
+    </SidebarProvider>
   );
 };
 

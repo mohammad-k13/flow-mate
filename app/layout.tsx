@@ -4,6 +4,7 @@ import { ReactFlowProvider } from "@xyflow/react";
 import EdgesProvider from "@/providers/edges-provider";
 import { ThemeProvider } from "@/providers/theme-provider";
 import { Toaster } from "sonner";
+import { SessionProvider } from "next-auth/react";
 
 export const metadata: Metadata = {
   title: "FlowMate – Empower Your Workflows with Flow-Mate.",
@@ -39,7 +40,9 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          <ReactFlowProvider>{children}</ReactFlowProvider>
+          <SessionProvider>
+            <ReactFlowProvider>{children}</ReactFlowProvider>
+          </SessionProvider>
         </ThemeProvider>
       </body>
     </html>

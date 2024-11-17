@@ -19,7 +19,11 @@
 
 // export default Dashboard
 
-import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
+import {
+  ResizableHandle,
+  ResizablePanel,
+  ResizablePanelGroup,
+} from "@/components/ui/resizable";
 import WorkFlowSidebar from "@/components/workFlow/side-bar";
 import WorkFlowCanvas from "@/components/workFlow/workflow-canvas";
 import React from "react";
@@ -34,12 +38,10 @@ const Dashboard = () => {
           </main>
         </ResizablePanel>
 
-        <ResizableHandle />
+        <ResizableHandle withHandle />
 
         <ResizablePanel>
-          <main
-            className="w-[99%] h-[99%] border-4 border-black rounded-md shadow-2"
-          >
+          <main className="w-[99%] h-[99%] border-4 border-black rounded-md shadow-2">
             <WorkFlowSidebar />
           </main>
         </ResizablePanel>

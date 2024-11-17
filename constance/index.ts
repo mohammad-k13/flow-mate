@@ -1,4 +1,27 @@
-import { NodeType } from "@/lib/types";
+import { DashboardSidebarLink, NodeType } from "@/lib/types";
+import {
+  Bell,
+  BookOpen,
+  Braces,
+  Cable,
+  CircleDollarSign,
+  icons,
+  Layers3,
+  User,
+  UserCheck,
+  Waypoints,
+  Workflow,
+  Instagram,
+  Mail,
+  MessageCircle,
+  FileText,
+  Slack,
+  Twitter,
+  File,
+  Trello,
+  Cloud,
+  CheckSquare,
+} from "lucide-react";
 
 export const sidebarNodes: NodeType[] = [
   {
@@ -45,5 +68,107 @@ export const sidebarNodes: NodeType[] = [
     },
     type: "Github",
     position: { x: 0, y: 0 },
+  },
+];
+
+export const WorkflowLinks: DashboardSidebarLink[] = [
+  {
+    icon: Workflow,
+    label: "My Workflows",
+    path: "/workflows",
+  },
+  {
+    icon: Waypoints,
+    label: "Public Workflows",
+    path: "/workflows",
+  },
+  {
+    icon: UserCheck,
+    label: "My Public Workflows",
+    path: "/workflows",
+  },
+];
+
+export const SettingLinks: DashboardSidebarLink[] = [
+  {
+    icon: User,
+    path: "/settings",
+    label: "Profile",
+  },
+  {
+    icon: CircleDollarSign,
+    path: "/settings",
+    label: "Billing & Plans",
+  },
+  {
+    icon: Bell,
+    path: "/settings",
+    label: "Notifications",
+  },
+  {
+    icon: Braces,
+    path: "/settings",
+    label: "API Tokens",
+  },
+];
+
+export const IntegrationLinks: DashboardSidebarLink[] = [
+  {
+    icon: Cable,
+    path: "/my-integration",
+    label: "My Integration",
+  },
+];
+
+export const IntegrateAppLinks: DashboardSidebarLink[] = [
+  {
+    path: "/integrations/instagram",
+    label: "Instagram",
+    icon: Instagram,
+  },
+  {
+    path: "/integrations/gmail",
+    label: "Gmail",
+    icon: Mail,
+  },
+  {
+    path: "/integrations/discord",
+    label: "Discord",
+    icon: MessageCircle,
+  },
+  {
+    path: "/integrations/notion",
+    label: "Notion",
+    icon: FileText,
+  },
+  {
+    path: "/integrations/slack",
+    label: "Slack",
+    icon: Slack,
+  },
+  {
+    path: "/integrations/twitter",
+    label: "Twitter",
+    icon: Twitter,
+  },
+  {
+    path: "/integrations/google-drive",
+    label: "Google Drive",
+    icon: File,
+  },
+  {
+    path: "/integrations/trello",
+    label: "Trello",
+    icon: Trello,
+  },
+  {
+    path: "/integrations/dropbox",
+    label: "Dropbox",
+    icon: Cloud,
+  },
+  {
+    path: "/integrations/asana",
+    label: "Asana",
+    icon: CheckSquare,
   },
 ];

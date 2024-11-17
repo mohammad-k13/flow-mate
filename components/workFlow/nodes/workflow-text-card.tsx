@@ -22,7 +22,7 @@ const WorkflowTextCard = ({
 
   useEffect(() => {
     setTargetData(getEdgeData(id) as string);
-  }, [edges]);
+  }, [edges, getEdgeData, id]);
 
   return (
     <div className="rounded-md p-2 shadow-2 bg-white border-2 border-black w-fit">

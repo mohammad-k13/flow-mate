@@ -13,25 +13,24 @@ import {
   Node,
   Edge,
 } from "@xyflow/react";
-import React, {
-  DragEvent,
-  useCallback,
-  useMemo,
-  useState,
-} from "react";
+import React, { DragEvent, useCallback, useMemo, useState } from "react";
 import WorkflowTextCard from "./nodes/workflow-text-card";
 import { EdgeType, NodeType, NodeTypes, EdgeTypes } from "@/lib/types";
 import InputTextEdge from "./edges/input-text-edge";
 import { v4 } from "uuid";
 import useCanvas from "@/providers/canvas-provider";
 import { sidebarNodes } from "@/constance";
-import '@xyflow/react/dist/style.css';
+import "@xyflow/react/dist/style.css";
+import WorkflowInputCard from "./nodes/workflow-input-card";
 
 const WorkFlowCanvas = () => {
   const { addEdge, addNode, edges, nodes } = useCanvas();
-  const [reactFlowInstance, setReactFlowInstance] = useState<ReactFlowInstance | null>(null);
-  const [currentNodes, setNodes, onNodesChange] = useNodesState<NodeType>(nodes);
-  const [currentEdges, setEdges, onEdgesChange] = useEdgesState<EdgeType>(edges);
+  const [reactFlowInstance, setReactFlowInstance] =
+    useState<ReactFlowInstance | null>(null);
+  const [currentNodes, setNodes, onNodesChange] =
+    useNodesState<NodeType>(nodes);
+  const [currentEdges, setEdges, onEdgesChange] =
+    useEdgesState<EdgeType>(edges);
 
   //trigger: When an edge is created
   const onConnect = useCallback(
@@ -65,7 +64,7 @@ const WorkFlowCanvas = () => {
     ) as NodeTypes;
 
     if (!reactFlowInstance) return;
-    const position = reactFlowInstance.project({
+    const position = reactFlowInstance.screenToFlowPosition({
       x: event.clientX,
       y: event.clientY,
     });
@@ -93,7 +92,7 @@ const WorkFlowCanvas = () => {
 
   const nodeTypes = useMemo(
     () => ({
-      Email: WorkflowTextCard,
+      Email: WorkflowInputCard,
       Discord: WorkflowTextCard,
       "Google Drive": WorkflowTextCard,
       Instagram: WorkflowTextCard,
@@ -119,7 +118,7 @@ const WorkFlowCanvas = () => {
       edgeTypes={edgeTypes}
       onDrop={onDrop}
       onDragOver={onDragOver}
-      
+      onInit={setReactFlowInstance as any}
       fitView
     >
       <Background offset={3} color="#000" />

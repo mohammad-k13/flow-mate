@@ -1,5 +1,6 @@
 // types.ts
-import { ReactElement } from "react";
+import { type LucideProps } from "lucide-react";
+import { type ForwardRefExoticComponent, ReactElement, ReactNode, type  RefAttributes } from "react";
 
 export type NodeTypes = "Email" | "Google Drive" | "Instagram" | "Discord" | "Github";
 
@@ -32,3 +33,11 @@ export type IconProps = {
   width?: number;
   height?: number;
 };
+
+
+// dashbaord sidebar
+export type DashboardSidebarLink = {
+  path: string,
+  label: string,
+  icon:  ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>
+}
