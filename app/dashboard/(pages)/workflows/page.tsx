@@ -52,7 +52,6 @@ const WorkflowPage = async () => {
       </section>
     );
   } catch (error) {
-    console.error("Error fetching workflows:", error);
     return (
       <Text className="text-destructive">
         Something went wrong while fetching workflows. Please try again later.
