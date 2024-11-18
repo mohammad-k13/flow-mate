@@ -122,11 +122,13 @@ model Workflow {
 }
 
 model NodeData {
-  id        String   @id @default(uuid())
-  nodeId    String   @unique
-  node      Node     @relation(fields: [nodeId], references: [id])
-  prompt    String?
-  config    Json?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(uuid())
+  nodeId      String   @unique
+  node        Node     @relation(fields: [nodeId], references: [id])
+  title       String
+  description String
+  prompt      String?
+  config      Json?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

@@ -75,17 +75,17 @@ export const WorkflowLinks: DashboardSidebarLink[] = [
   {
     icon: Workflow,
     label: "My Workflows",
-    path: "/workflows",
+    path: "/dashboard/workflows",
   },
   {
     icon: Waypoints,
     label: "Public Workflows",
-    path: "/workflows",
+    path: "/dashboard/workflows",
   },
   {
     icon: UserCheck,
     label: "My Public Workflows",
-    path: "/workflows",
+    path: "/dashboard/workflows",
   },
 ];
 

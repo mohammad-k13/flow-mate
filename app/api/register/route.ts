@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { v4 as uuidv4 } from "uuid";
 import { hash } from "bcryptjs";
 import { prisma } from "@/prisma";
-//task: create an account too
+
 export async function POST(req: Request) {
   try {
     const formData = await req.formData();

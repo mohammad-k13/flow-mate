@@ -4,6 +4,7 @@ import { CanvasProvider } from "@/providers/canvas-provider";
 import React, { ReactNode } from "react";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import DashboardBreadcrumb from "@/components/global/dashboard/Breadcrumb";
+import Title from "@/components/typeography/title";
 type Props = {
   children: ReactNode;
 };

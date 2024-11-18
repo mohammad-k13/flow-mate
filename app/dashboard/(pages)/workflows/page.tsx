@@ -10,12 +10,10 @@ const WorkflowPage = async () => {
   try {
     const workflows = await prisma.workflow.findMany();
     return (
-      <section className="w-full h-full pt-8">
-        <header className="w-full">
-          <Slack className="w-full" justify="end">
-            <CreateWorkflow />
-          </Slack>
-        </header>
+      <section className="w-full h-full">
+
+        <CreateWorkflow />
+
         {!workflows ||
           (!workflows.length && (
             <Slack className="h-full" dir="col" justify="around" gap={5}>
@@ -36,7 +34,7 @@ const WorkflowPage = async () => {
             justify="start"
             align="start"
             gap={25}
-          >
+            >
             {workflows.map(({ createdAt, description, id, name }) => (
               <WorkFlowCard
                 key={id}

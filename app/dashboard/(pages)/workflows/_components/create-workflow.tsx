@@ -79,7 +79,7 @@ const CreateWorkflow = () => {
   };
 
   return (
-    <div>
+    <div className="fixed bottom-2 right-2">
       <Slack dir="col" gap={5}>
         <button
           className="bg-foreground text-background rounded-md p-2 text-sm "

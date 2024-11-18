@@ -55,7 +55,7 @@ const WorkFlowCard = ({ name, description, id, createdAt, nodes }: Props) => {
           <Text className="text-sm">{id}</Text>
         </Slack>
 
-        <Slack align="end" justify="end" gap={8} className="w-full mt-5">
+        <Slack align="end" justify="end" gap={8} className="w-full mt-5 max-sm:flex-col">
           <button
             className="bg-destructive text-destructive-foreground rounded-md p-2 text-sm "
             onClick={deleteWorkflow}
