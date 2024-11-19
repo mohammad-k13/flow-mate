@@ -11,7 +11,8 @@ type Props = {
 
 const DashboardLayout = ({ children }: Props) => {
   return (
-    <SidebarProvider>
+    // handle max width
+    <SidebarProvider className="">
       <section className="w-full h-screen">
         <Slack className="w-full h-full">
           <DashboardSidebar />

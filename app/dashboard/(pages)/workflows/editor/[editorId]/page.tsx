@@ -24,10 +24,10 @@ const Editor = () => {
 
     useEffect(() => {
         startSetWorkflow(() => setWorkflowData(params.editorId));
-    }, [setWorkflowData]);
+    }, []);
     return (
         <section className="w-full h-full font-work-sans">
-            <header className="w-full px-2 h-14">
+            <header className="w-full px-2 h-16">
                 <Slack className="w-full" justify="between">
                     <Title level={2}>Workflow Editor</Title>
                     <Slack className="" justify="center">
