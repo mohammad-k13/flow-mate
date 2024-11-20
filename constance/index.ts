@@ -22,6 +22,7 @@ import {
   Cloud,
   CheckSquare,
 } from "lucide-react";
+import { signIn } from "next-auth/react";
 
 export const sidebarNodes: NodeType[] = [
   {
@@ -115,12 +116,15 @@ export const SettingLinks: DashboardSidebarLink[] = [
 export const IntegrationLinks: DashboardSidebarLink[] = [
   {
     icon: Cable,
-    path: "/my-integration",
+    path: "/dashboard/my-integration",
     label: "My Integration",
   },
 ];
 
-export const IntegrateAppLinks: DashboardSidebarLink[] = [
+interface IntergrationClick extends DashboardSidebarLink {
+  onClick?: () => {}
+}
+export const IntegrateAppLinks: IntergrationClick[] = [
   {
     path: "/integrations/instagram",
     label: "Instagram",
@@ -135,6 +139,7 @@ export const IntegrateAppLinks: DashboardSidebarLink[] = [
     path: "/integrations/discord",
     label: "Discord",
     icon: MessageCircle,
+    onClick: async () => await signIn("discord", {redirectTo: "/dashboard/my-integration"})
   },
   {
     path: "/integrations/notion",
