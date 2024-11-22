@@ -4,7 +4,7 @@ import Slack from "@/components/layout/slack";
 import Title from "@/components/typeography/title";
 import { Button } from "@/components/ui/button";
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "@/components/ui/resizable";
-import WorkFlowSidebar from "@/components/workFlow/side-bar";
+import WorkFlowSidebar from "@/components/workFlow/workflow-sidebar";
 import WorkFlowCanvas from "@/components/workFlow/workflow-canvas";
 import useCanvas from "@/providers/canvas-provider";
 import { Loader } from "lucide-react";

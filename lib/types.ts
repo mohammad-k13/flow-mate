@@ -10,7 +10,7 @@ export interface IAccessTokensType {
 }
 
 //React flow
-export type NodeTypes = "Email" | "Google Drive" | "Instagram" | "Discord" | "Github";
+export type NodeTypes = "google" | "instagram" | "discord" | "github";
 
 export type NodeType = {
     id: string;
@@ -25,7 +25,7 @@ export type NodeType = {
     };
 };
 
-export type EdgeTypes = "feild-text";
+export type EdgeTypes = string;
 
 export type EdgeType = {
     id: string;
@@ -48,3 +48,7 @@ export interface DashboardSidebarLink {
     label: string;
     icon: ForwardRefExoticComponent<Omit<LucideProps, "ref"> & RefAttributes<SVGSVGElement>>;
 };
+
+
+// integration
+export type IntegrateAppCardType = "discord" | "github" | "google";

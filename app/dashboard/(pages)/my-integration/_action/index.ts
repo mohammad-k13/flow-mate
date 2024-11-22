@@ -1,31 +1,26 @@
 "use server";
 
+import { auth } from "@/auth";
 import { prisma } from "@/prisma";
 
 //session
-export const createSession = async ({
-    session,
-    token,
-}: {
-    session: { sessionToken: string };
-    token: { sub: string };
-}) => {
-    if (!session.sessionToken || !token.sub) return 403;
+export const createSession = async (sessionToken: string, userId: string) => {
+    if (!sessionToken || !userId) return 403;
 
     const expires = new Date();
     expires.setHours(expires.getHours() + 24 * 10);
     try {
         await prisma.session.upsert({
-            where: { sessionToken: session.sessionToken },
+            where: { userId },
             update: { expires },
             create: {
-                sessionToken: session.sessionToken,
+                sessionToken,
                 expires,
-                userId: token.sub ?? "",
+                userId,
             },
         });
-    } catch (err) {
-        console.log(err);
+    } catch (err: any) {
+        console.log(err.message);
         return 500;
     }
 };
@@ -38,17 +33,25 @@ export const storeAccessToken = async (
     refreshToken?: string
 ) => {
     if (!userId || !provider || !accessToken) {
-        return 403;
+        return 409;
     }
     const expiresAt = new Date();
     expiresAt.setHours(expiresAt.getHours() + 24 * 10);
 
     try {
-        await prisma.oAuthToken.create({
-            data: {
+        await prisma.oAuthToken.upsert({
+            where: {
+                userId_provider: { userId, provider },
+            },
+            update: {
                 accessToken,
-                provider,
+                refreshToken: refreshToken ?? "",
+                expiresAt,
+            },
+            create: {
                 userId,
+                provider,
+                accessToken,
                 refreshToken: refreshToken ?? "",
                 expiresAt,
             },
@@ -59,12 +62,29 @@ export const storeAccessToken = async (
     }
 };
 
-//queries
-export const getAllIntegrations = async () => {
+export const disconnectApp = async (providerId?: number) => {
+    if (!providerId) return 409;
+
     try {
-        return await prisma.oAuthToken.findMany({
-            select: { provider: true, expiresAt: true, user: { select: { email: true } } },
+        await prisma.oAuthToken.delete({ where: { id: Number(providerId) } });
+        return 200;
+    } catch (err) {
+        console.log(err);
+        return 500;
+    }
+};
+
+//queries
+export const getAllIntegrations = async (userId: string) => {
+    if(!userId) return 409
+    try {
+        const result = await prisma.oAuthToken.findMany({
+            where: {
+                userId,
+            },
+            select: { id: true, provider: true, expiresAt: true, user: { select: { email: true } } },
         });
+        return result;
     } catch (err) {
         console.log(err);
         return 500;

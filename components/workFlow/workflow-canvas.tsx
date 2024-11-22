@@ -42,7 +42,7 @@ const WorkFlowCanvas = () => {
                     source: source.id,
                     target: target.id,
                     data: null,
-                    type: "feild-text",
+                    type: edgeType,
                 };
 
                 setEdges((pv) => [...pv, newEdge]);
@@ -90,6 +90,7 @@ const WorkFlowCanvas = () => {
                 },
                 type,
             };
+            console.log(newNode);
 
             setNodes((pv) => [...pv, newNode]);
             setUnsavedChanges(true);
@@ -103,17 +104,9 @@ const WorkFlowCanvas = () => {
 
     const nodeTypes = useMemo(
         () => ({
-            Email: WorkflowInputCard,
-            Discord: WorkflowTextCard,
-            "Google Drive": WorkflowTextCard,
-            Instagram: WorkflowTextCard,
-        }),
-        []
-    );
-
-    const edgeTypes = useMemo(
-        () => ({
-            "input-text": InputTextEdge,
+            github: WorkflowInputCard,
+            google: WorkflowInputCard,
+            discord: WorkflowInputCard,
         }),
         []
     );
@@ -129,7 +122,6 @@ const WorkFlowCanvas = () => {
             onDragOver={onDragOver}
             onInit={setReactFlowInstance as any}
             nodeTypes={nodeTypes}
-            edgeTypes={edgeTypes}
             fitView
             colorMode={theme === "light" ? "light" : theme === "dark" ? "dark" : "system"}
         >

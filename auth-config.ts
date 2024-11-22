@@ -11,12 +11,14 @@ import { IAccessTokensType } from "./lib/types";
 import { createSession, storeAccessToken } from "./app/dashboard/(pages)/my-integration/_action";
 
 declare module "next-auth" {
-    interface Session extends IAccessTokensType {}
+    interface Session extends IAccessTokensType {
+        userId: string
+    }
 }
 
 declare module "next-auth/jwt" {
     interface JWT extends IAccessTokensType {
-        sessionToken: string
+        sessionToken: string;
     }
 }
 
@@ -66,14 +68,13 @@ export default {
             if (token && account) {
                 token.sessionToken = token.sessionToken ?? `${account.provider}-${token.sub}-${new Date().getTime()}`;
 
-                await createSession({
-                    session: { sessionToken: token.sessionToken },
-                    token: { sub: token.sub ?? "" },
-                });
-                
+                if (token.sessionToken && token.sub) {
+                    const statusCode = await createSession(token.sessionToken, token.sub);
+                    console.log(statusCode);
+                }
                 // store provider accessToken
                 if (account.access_token) {
-                    await storeAccessToken(
+                    const statusCode = await storeAccessToken(
                         token.sub ?? "",
                         account.provider,
                         account.access_token,
@@ -84,6 +85,7 @@ export default {
             return token;
         },
         async session({ session, token }) {
+            session.userId = token.sub!;
             return session;
         },
     },

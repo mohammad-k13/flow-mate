@@ -60,7 +60,6 @@ const DashboardLayout = () => {
             <SidebarContent>
                 <Slack gap={10} justify="start" className="pt-3 pl-4">
                     <Image src={"/icons/Logo.svg"} width={25} height={25} alt="logo" />
-                    {/* TASK: change font of this text */}
                     <Title level={4}>FlowMate</Title>
                 </Slack>
                 {/* <!-- ========== Start Home ========== --> */}
