@@ -5,6 +5,7 @@ import { createContext, Dispatch, FC, ReactNode, SetStateAction, useContext, use
 import FetchToGPT from "@/lib/generateGptResponse";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
+import { getWorkflowDataById } from "@/actions/workflows";
 
 type CanvasContextType = {
     nodes: NodeType[];
@@ -19,7 +20,7 @@ type CanvasContextType = {
     saveChanges: (workflowId: string) => void;
     setWorkflowData: (workflowId: string) => void;
     clearStates: () => void;
-    setUnsavedChanges:  Dispatch<SetStateAction<boolean>>
+    setUnsavedChanges: Dispatch<SetStateAction<boolean>>;
 };
 const canvasContext = createContext<CanvasContextType>({
     nodes: [],
@@ -34,7 +35,7 @@ const canvasContext = createContext<CanvasContextType>({
     saveChanges: () => {},
     setWorkflowData: () => {},
     clearStates: () => {},
-    setUnsavedChanges: () => {}
+    setUnsavedChanges: () => {},
 });
 
 type CanvasProviderType = {
@@ -43,6 +44,7 @@ type CanvasProviderType = {
 export const CanvasProvider: FC<CanvasProviderType> = ({ children }) => {
     const [nodes, setNodes] = useState<NodeType[]>([]);
     const [edges, setEdges] = useState<EdgeType[]>([]);
+    const [updateWorkflowData, setUpdateWorkflowData] = useState<boolean>(false);
     const [unsavedChanges, setUnsavedChanges] = useState<boolean>(false);
     const { push } = useRouter();
 
@@ -51,7 +53,6 @@ export const CanvasProvider: FC<CanvasProviderType> = ({ children }) => {
             return edge.source === sourceNodeId ? { ...edge, data } : edge;
         });
         setEdges(updatedEdges);
-        setUnsavedChanges(true);
     };
     const getEdgeData = (targetNodeId: string) => {
         const targetNodeEdge = edges.find((edge) => edge.target === targetNodeId);
@@ -87,42 +88,50 @@ export const CanvasProvider: FC<CanvasProviderType> = ({ children }) => {
 
     const setWorkflowData = async (workflowId: string) => {
         try {
-            const response = await fetch(`/api/workflow/${workflowId}`);
-
-            if (response.ok) {
-                const { workflow } = await response.json();
-
-                if (!workflow) return toast.error("Workflow Not Found");
-
-                const workflowNodes: NodeType[] = workflow.nodes.map(
-                    (node: any) =>
-                        ({
-                            id: node.id,
-                            type: node.type,
-                            data: { title: node.data.title ?? "", description: node.data.description ?? "" },
-                            position: {
-                                x: node.positionX || 0,
-                                y: node.positionY || 0,
-                            },
-                        } as NodeType)
-                );
-                const workflowEdges: EdgeType[] = workflow.edges.map(
-                    (edge: any) =>
-                        ({
-                            id: edge.id,
-                            source: edge.sourceNode.id,
-                            target: edge.targetNode.id,
-                            type: edge.type || "feild-text",
-                        } as EdgeType)
-                );
-
-                setNodes(workflowNodes);
-                setEdges(workflowEdges);
-                setUnsavedChanges(false);
-            } else {
+            const data = await getWorkflowDataById(workflowId);
+            //if number doesn't be 500 or 403, data will be workflow Data
+            if (typeof data === "number") {
                 toast.error("Failed to Fetch");
                 push("/dashboard/workflows");
+                return;
             }
+            const workflow = data;
+
+            if (!workflow) {
+                toast.error("Workflow Not Found");
+                push("/dashbaord/workflows");
+                return;
+            }
+
+            const workflowNodes: NodeType[] = workflow.nodes.map(
+                (node: any) =>
+                    ({
+                        id: node.id,
+                        type: node.type,
+                        data: {
+                            title: node.data.title ?? "",
+                            description: node.data.description ?? "",
+                            prompt: node.prompt,
+                        },
+                        position: {
+                            x: node.positionX || 0,
+                            y: node.positionY || 0,
+                        },
+                    } as NodeType)
+            );
+            const workflowEdges: EdgeType[] = workflow.edges.map(
+                (edge: any) =>
+                    ({
+                        id: edge.id,
+                        source: edge.sourceNode.id,
+                        target: edge.targetNode.id,
+                        type: edge.type || "feild-text",
+                    } as EdgeType)
+            );
+
+            setNodes(workflowNodes);
+            setEdges(workflowEdges);
+            setUnsavedChanges(false);
         } catch (err) {
             console.log(err);
             toast.error("Failed to Fetch");
@@ -150,7 +159,7 @@ export const CanvasProvider: FC<CanvasProviderType> = ({ children }) => {
                 saveChanges,
                 setWorkflowData,
                 clearStates,
-                setUnsavedChanges
+                setUnsavedChanges,
             }}
         >
             {children}

@@ -18,6 +18,7 @@ export type NodeType = {
     data: {
         title: string;
         description: string;
+        prompt?: string
     };
     position: {
         x: number;

@@ -30,7 +30,7 @@ import { Dispatch, SetStateAction, useEffect, useState, useTransition } from "re
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { z } from "zod";
-import { createWorkflow } from "../_actions";
+import { createWorkflow } from "@/actions/workflows";
 
 type Props = {
   setUpdateWorkflows: Dispatch<SetStateAction<boolean>>;

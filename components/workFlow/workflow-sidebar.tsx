@@ -8,7 +8,7 @@ import { NodeType, NodeTypes } from "@/lib/types";
 import { sidebarNodes } from "@/constance";
 import { Button } from "../ui/button";
 import { useSession } from "next-auth/react";
-import { getAllIntegrations } from "@/app/dashboard/(pages)/my-integration/_action";
+import { getAllIntegrations } from "@/actions/my-integration";
 import { IntegrationType } from "@/app/dashboard/(pages)/my-integration/page";
 import { SidebarProvider } from "../ui/sidebar";
 import { Skeleton } from "../ui/skeleton";
@@ -21,7 +21,7 @@ const WorkFlowSidebar = () => {
     const [pending, startTransition] = useTransition();
     const [integrations, setIntegrations] = useState<IntegrationType[]>([]);
 
-    const {setNodes} = useCanvas();
+    const { setNodes } = useCanvas();
 
     const onDragStart = (event: DragEvent<HTMLDivElement>, nodeType: string) => {
         console.log(nodeType);
@@ -34,16 +34,16 @@ const WorkFlowSidebar = () => {
             id: v4(),
             position: {
                 x: 150,
-                y: 150
+                y: 150,
             },
             data: {
                 title,
-                description
+                description,
             },
             type,
         };
         setNodes((pv) => [...pv, newNode]);
-    }
+    };
 
     useEffect(() => {
         startTransition(async () => {
@@ -73,35 +73,46 @@ const WorkFlowSidebar = () => {
                     </>
                 )}
                 {!pending &&
-                    integrations.map((item) => (
-                        <Slack
-                            key={item.id}
-                            dir="col"
-                            align="start"
-                            draggable
-                            className="w-[80%] min-w-[200px] max-md:w-full h-fit p-3 shadow-border-3 cursor-grab bg-background"
-                            onDragStart={(event) => onDragStart(event, item.provider)}
-                        >
-                            <Title level={5} className="capitalize">
-                                {item.provider}
-                            </Title>
-                            <Text className="capitalize">
-                                {
-                                    sidebarNodes.find((node) => node.type.toLowerCase() === item.provider)?.data
-                                        .description
-                                }
-                            </Text>
-                            <div className="w-full h-[1px] bg-foreground my-3" />
-                            <Slack align="center" gap={15}>
-                                <button className="bg-foreground text-background p-2 rounded-md hover:bg-foreground/90 transition-colors" onClick={() => {addCardToCanvas(item.provider, sidebarNodes.find((node) => node.type.toLowerCase() === item.provider)?.data
-                                        .description ?? "", item.provider)}}>
-                                    Add To Canvas
-                                </button>
-                                <div className="w-[1px] bg-foreground h-3/4 "></div>
-                                <Text className="text-sm font-300">Grab Card and drag into worflow</Text>
+                    integrations
+                        .filter((item) => item.provider !== "discord")
+                        .map((item) => (
+                            <Slack
+                                key={item.id}
+                                dir="col"
+                                align="start"
+                                draggable
+                                className="w-[80%] min-w-[200px] max-md:w-full h-fit p-3 shadow-border-3 cursor-grab bg-background"
+                                onDragStart={(event) => onDragStart(event, item.provider)}
+                            >
+                                <Title level={5} className="capitalize">
+                                    {item.provider}
+                                </Title>
+                                <Text className="capitalize">
+                                    {
+                                        sidebarNodes.find((node) => node.type.toLowerCase() === item.provider)?.data
+                                            .description
+                                    }
+                                </Text>
+                                <div className="w-full h-[1px] bg-foreground my-3" />
+                                <Slack align="center" gap={15}>
+                                    <button
+                                        className="bg-foreground text-background p-2 rounded-md hover:bg-foreground/90 transition-colors"
+                                        onClick={() => {
+                                            addCardToCanvas(
+                                                item.provider,
+                                                sidebarNodes.find((node) => node.type.toLowerCase() === item.provider)
+                                                    ?.data.description ?? "",
+                                                item.provider
+                                            );
+                                        }}
+                                    >
+                                        Add To Canvas
+                                    </button>
+                                    <div className="w-[1px] bg-foreground h-3/4 "></div>
+                                    <Text className="text-sm font-300">Grab Card and drag into worflow</Text>
+                                </Slack>
                             </Slack>
-                        </Slack>
-                    ))}
+                        ))}
             </Slack>
         </Slack>
     );

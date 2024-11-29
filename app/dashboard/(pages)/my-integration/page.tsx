@@ -3,11 +3,11 @@
 import Slack from "@/components/layout/slack";
 import Title from "@/components/typeography/title";
 import React, { useEffect, useState, useTransition } from "react";
-import { disconnectApp, getAllIntegrations } from "./_action";
-import IntegrateAppCard from "./_components/integrate-app-card";
+import { disconnectApp, getAllIntegrations } from "@/actions/my-integration";
+import IntegrateAppCard from "@/components/routes/(dashboard)/my-integration/integrate-app-card";
 import { IntegrateAppCardType } from "@/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
-import IntegrateAppCardLoader from "./_components/integrate-app-card-loader";
+import IntegrateAppCardLoader from "@/components/routes/(dashboard)/my-integration/integrate-app-card-loader";
 import { IntegrateAppLinks } from "@/constance";
 import { LiteralUnion, signIn, useSession } from "next-auth/react";
 import { auth } from "@/auth";
@@ -27,8 +27,13 @@ const MyIntegration = () => {
     const [integration, setIntegrations] = useState<IntegrationType[]>([]);
     const [updateData, setUpdateDate] = useState<boolean>(false);
 
-    const connectAppHandler = (label: IntegrateAppCardType) =>
-        signIn(label.toLowerCase(), { redirectTo: "/dashboard/my-integration" });
+    const connectAppHandler = (label: IntegrateAppCardType) => {
+        if (label === "discord") {
+            window.open(process.env.DISCORD_BOT_URL as string)
+        } else {
+            signIn(label.toLowerCase(), { redirectTo: "/dashboard/my-integration" });
+        }
+    };
 
     const disconnectAppHandler = (providerId: number) => {
         startDisconnetc(async () => {

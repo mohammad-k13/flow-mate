@@ -105,6 +105,7 @@ model Edge {
   workflowId   String
   workflow     Workflow @relation(fields: [workflowId], references: [id])
   data         Json?
+  type         String
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
@@ -118,6 +119,7 @@ model Node {
   type       String
   workflowId String
   workflow   Workflow  @relation(fields: [workflowId], references: [id])
+  prompt     String?
   positionX  Float
   positionY  Float
   data       NodeData?

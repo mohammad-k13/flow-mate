@@ -81,6 +81,7 @@ export const POST = async (req: Request) => {
             targetNodeId: edge.target,
             workflowId: workflowId,
             data: edge.data ?? {},
+            type: edges.type
           },
         });
       });

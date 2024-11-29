@@ -8,7 +8,7 @@ import { prisma } from "./prisma";
 import { compare } from "bcryptjs";
 import { JWT } from "next-auth/jwt";
 import { IAccessTokensType } from "./lib/types";
-import { createSession, storeAccessToken } from "./app/dashboard/(pages)/my-integration/_action";
+import { createSession, storeAccessToken } from "@/actions/my-integration";
 
 declare module "next-auth" {
     interface Session extends IAccessTokensType {

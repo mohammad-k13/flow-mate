@@ -24,6 +24,7 @@ import "@xyflow/react/dist/style.css";
 import WorkflowInputCard from "./nodes/workflow-input-card";
 import { useTheme } from "next-themes";
 import { EdgeType, NodeType, NodeTypes } from "@/lib/types";
+import WorkflowTriggerCard from "./nodes/workflow-trigger-card";
 
 const WorkFlowCanvas = () => {
     const { theme } = useTheme();
@@ -106,7 +107,7 @@ const WorkFlowCanvas = () => {
         () => ({
             github: WorkflowInputCard,
             google: WorkflowInputCard,
-            discord: WorkflowInputCard,
+            discord: WorkflowTriggerCard,
         }),
         []
     );

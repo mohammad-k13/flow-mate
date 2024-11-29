@@ -4,9 +4,10 @@ import OpenAI from "openai";
 
 const FetchToGPT = async (prompt: string) => {
   try {
-    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY }); // Use a server-side key
+    console.log(process.env.OPENAI_API_KEY)
+    const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
     const completion = await openai.chat.completions.create({
-      model: "gpt-3.5-turbo", // Use a valid model name like "gpt-4-turbo"
+      model: "gpt-3.5-turbo",
       messages: [
         {
           role: "user",

@@ -3,14 +3,14 @@
 import Slack from "@/components/layout/slack";
 import { prisma } from "@/prisma";
 import React, { useEffect, useState, useTransition } from "react";
-import CreateWorkflow from "./_components/create-workflow";
-import WorkFlowCard from "./_components/workflow-card";
+import CreateWorkflow from "@/components/routes/(dashboard)/workflows/create-workflow";
+import WorkFlowCard from "@/components/routes/(dashboard)/workflows/workflow-card";
 import Title from "@/components/typeography/title";
 import Text from "@/components/typeography/text";
 import { Workflow } from "@prisma/client";
-import { getAllWorkflows } from "./_actions";
+import { getAllWorkflows } from "@/actions/workflows";
 import { Skeleton } from "@/components/ui/skeleton";
-import WorkflowCardLoader from "./_components/workflow-loader";
+import WorkflowCardLoader from "@/components/routes/(dashboard)/workflows/workflow-loader";
 
 type WorkflowWithNode = {
     createdAt: Date;

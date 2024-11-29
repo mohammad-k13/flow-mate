@@ -57,7 +57,7 @@ export const sidebarNodes: NodeType[] = [
         id: "Discord",
         data: {
             title: "Discord",
-            description: "Automate interactions with your Discord server.",
+            description: "Trigger Your workflow using FlowMate Discord Bot",
         },
         type: "discord",
         position: { x: 0, y: 0 },
