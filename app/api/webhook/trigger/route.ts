@@ -1,9 +1,9 @@
+import triggerWorkflow from "@/actions/trigger-workflow";
 import { NextResponse } from "next/server";
 
 export const POST = async (request: Request) => {
-    console.log(request);
     const { workflowId } = await request.json();
-    console.log(workflowId);
+    await triggerWorkflow(workflowId)
 
     return NextResponse.json({ workflowId });
 };
