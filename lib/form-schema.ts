@@ -20,7 +20,7 @@ export const loginForm = z.object({
             message: "Email must  be at least 5 characters.",
         })
         .email({ message: "Email is not valid" }),
-    password: z.string()
+    password: z.string(),
 });
 
 export const createWorkflowForm = z.object({
@@ -30,4 +30,17 @@ export const createWorkflowForm = z.object({
     description: z.string().min(1, {
         message: "description required.",
     }),
+});
+
+export const profileForm = z.object({
+    name: z.string().min(1, {
+        message: "Name Required.",
+    }),
+    email: z
+        .string()
+        .min(5, {
+            message: "Email must  be at least 5 characters.",
+        })
+        .email({ message: "Email is not valid" }),
+    password: z.string(),
 });

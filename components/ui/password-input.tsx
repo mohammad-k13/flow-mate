@@ -12,7 +12,7 @@ const PasswordInput = (props: Props) => {
   const [showPassword, setShowPassword] = useState(false);
 
   return (
-    <div className="relative">
+    <div className="relative w-full">
       <Input
         type={showPassword ? "text" : "password"}
         placeholder={placeholder}

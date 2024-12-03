@@ -10,10 +10,11 @@ import Image from "next/image";
 import { X } from "lucide-react";
 
 type Props = {
+  label?: string;
   onFileSelect: Dispatch<SetStateAction<File | null>>;
 };
 
-export default function InputFile({ onFileSelect }: Props) {
+export default function InputFile({ onFileSelect, label}: Props) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [preview, setPreview] = useState<string | null>(null);
   const [openDialog, setOpenDialog] = useState<boolean>(false);
@@ -54,7 +55,7 @@ export default function InputFile({ onFileSelect }: Props) {
           htmlFor="picture"
           className="w-fit p-2 py-4 rounded-md shadow-border-1 hover:bg-muted cursor-pointer transition-colors"
         >
-          Profile Picture
+          {label ?? "Profile Picture"}
         </Label>
         {preview && (
           <div className="mt-4 cursor-pointer relative">
