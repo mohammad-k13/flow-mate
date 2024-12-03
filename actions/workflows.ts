@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { prisma } from "@/prisma";
 import { v4 } from "uuid";
+import { NodeTypes, EdgeTypes, NodeType, EdgeType } from "@/lib/types";
 
 //command
 export const createWorkflow = async ({ name, description }: { name: string; description: string }) => {
@@ -12,7 +13,7 @@ export const createWorkflow = async ({ name, description }: { name: string; desc
             data: {
                 name,
                 description,
-                userId: session?.userId,
+                userId: session!.userId,
                 nodes: {
                     create: {
                         id: v4(),
@@ -108,6 +109,107 @@ export const savePromptOfNode = async (nodeId: string, prompt: string) => {
     }
 };
 
+export const saveWorkflowChanges = async ({
+    edges,
+    nodes,
+    workflowId,
+}: {
+    nodes: NodeType[];
+    edges: EdgeType[];
+    workflowId: string;
+}) => {
+    if (!workflowId) {
+        return 403;
+    }
+
+    try {
+        const workflow = await prisma.workflow.findUnique({
+            where: { id: workflowId },
+        });
+
+        if (!workflow) {
+            return 404;
+        }
+
+        // Step 2: Handle Nodes Creation/Update (only if nodes are provided)
+        if (nodes && nodes.length > 0) {
+            const nodePromises = nodes.map(async (node: any) => {
+                if (!node.id) return null; // Ensure node has an ID
+
+                return prisma.node.upsert({
+                    where: { id: node.id },
+                    update: {
+                        type: node.type ?? "default",
+                        positionX: node.position?.x ?? 0,
+                        positionY: node.position?.y ?? 0,
+                        data: {
+                            update: {
+                                title: node.data?.title ?? "",
+                                description: node.data?.description ?? "",
+                            },
+                        },
+                    },
+                    create: {
+                        id: node.id,
+                        type: node.type ?? "default",
+                        positionX: node.position?.x ?? 0,
+                        positionY: node.position?.y ?? 0,
+                        workflowId: workflowId,
+                        data: {
+                            create: {
+                                title: node.data?.title ?? "",
+                                description: node.data?.description ?? "",
+                            },
+                        },
+                    },
+                    include: { data: true },
+                });
+            });
+
+            await Promise.all(nodePromises);
+        }
+
+        // Step 3: Handle Edges Creation/Update (only if edges are provided)
+        if (edges && edges.length > 0) {
+            const edgePromises = edges.map(async (edge: any) => {
+                if (!edge.id || !edge.source || !edge.target) return null; // Ensure edge has required fields
+
+                return prisma.edge.upsert({
+                    where: { id: edge.id },
+                    update: {
+                        sourceNodeId: edge.source,
+                        targetNodeId: edge.target,
+                        data: edge.data ?? {},
+                    },
+                    create: {
+                        id: edge.id,
+                        sourceNodeId: edge.source,
+                        targetNodeId: edge.target,
+                        workflowId: workflowId,
+                        data: edge.data ?? {},
+                        type: edge.type,
+                    },
+                });
+            });
+
+            await Promise.all(edgePromises);
+        }
+
+        // Step 4: Fetch and Return the Updated Workflow
+        const updatedWorkflow = await prisma.workflow.findUnique({
+            where: { id: workflowId },
+            include: {
+                nodes: { include: { data: true } },
+                edges: true,
+            },
+        });
+
+        return 200;
+    } catch (err: any) {
+        console.error("Error:", err);
+        return 500;
+    }
+};
 
 //queries
 export const getAllWorkflows = async () => {
