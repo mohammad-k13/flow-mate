@@ -5,7 +5,7 @@ import { createContext, Dispatch, FC, ReactNode, SetStateAction, useContext, use
 import FetchToGPT from "@/lib/generateGptResponse";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
-import { getWorkflowDataById } from "@/actions/workflows";
+import { getWorkflowDataById, saveWorkflowChanges } from "@/actions/workflows";
 
 type CanvasContextType = {
     nodes: NodeType[];
@@ -65,21 +65,14 @@ export const CanvasProvider: FC<CanvasProviderType> = ({ children }) => {
 
     const saveChanges = async (workflowId: string) => {
         try {
-            const respones = await fetch("/api/workflow/update", {
-                method: "POST",
-                headers: {
-                    "content-type": "application/json",
-                },
-                body: JSON.stringify({ nodes, edges, workflowId }),
-            });
-
-            console.log(respones);
-            const { message } = await respones.json();
-            if (respones.ok) {
-                toast.success(message);
+            const statusCode = await saveWorkflowChanges({nodes, edges, workflowId});
+            if (statusCode === 200) {
+                toast.success("Changes Was Saved!");
                 setUnsavedChanges(false);
+            } else if(statusCode === 404) {
+                toast.error("Workflow Not Found")
             } else {
-                toast.error(message);
+                throw new Error();
             }
         } catch (err) {
             toast.error("Faild to Fetch");
