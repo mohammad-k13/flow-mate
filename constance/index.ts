@@ -94,7 +94,7 @@ export const WorkflowLinks: DashboardSidebarLink[] = [
 export const SettingLinks: DashboardSidebarLink[] = [
     {
         icon: User,
-        path: "/settings",
+        path: "dashboard/settings/profile",
         label: "Profile",
     },
     {
