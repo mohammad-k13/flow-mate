@@ -94,22 +94,22 @@ export const WorkflowLinks: DashboardSidebarLink[] = [
 export const SettingLinks: DashboardSidebarLink[] = [
     {
         icon: User,
-        path: "dashboard/settings/profile",
+        path: "dashboard/settings",
         label: "Profile",
     },
     {
         icon: CircleDollarSign,
-        path: "/settings",
+        path: "/dashboard",
         label: "Billing & Plans",
     },
     {
         icon: Bell,
-        path: "/settings",
+        path: "/dashboard",
         label: "Notifications",
     },
     {
         icon: Braces,
-        path: "/settings",
+        path: "/dashboard",
         label: "API Tokens",
     },
 ];

@@ -25,17 +25,18 @@ import { useEffect, useState, useTransition } from "react";
 import { AuthError } from "next-auth";
 import { Loader2 } from "lucide-react";
 import InputFileWithPreview from "@/components/ui/input-file-with-preview";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 
 type UserInfoType = {
-      name: string | null;
-      email: string | null;
-      image: string | null;
-}
+    name: string;
+    email: string;
+    image: string;
+};
 
 const ProfileForm = () => {
-    const auth_session = useSession();
+    const {data: session, status} = useSession();
     const [profilePicture, setProfilePicture] = useState<File | null>(null);
-    const [userInof, setUserInfo] = useState<UserInfoType>();
+    const [userInfo, setUserInfo] = useState<UserInfoType>();
 
     const form = useForm<z.infer<typeof profileForm>>({
         resolver: zodResolver(profileForm),
@@ -48,15 +49,19 @@ const ProfileForm = () => {
     const onSubmit = (value: z.infer<typeof profileForm>) => {};
 
     useEffect(() => {
-        if (auth_session.status === "authenticated") {
-            setUserInfo({
-                  name: auth_session.data.user?.name ?? "",
-                  email: auth_session.data.user?.email ?? "",
-                  image: auth_session.data.user?.image ?? ""
-            })
-            console.log(auth_session);
-        }
-    }, [auth_session.status]);
+      if(status !== "authenticated") return;
+      form.setValue("name", session?.user?.name ?? "")
+      form.setValue("email", session?.user?.email ?? "")
+    }, [status])
+//     useEffect(() => {
+//         if (auth_session.status === "authenticated") {
+//             setUserInfo({
+//                 name: auth_session.data.user?.name ?? "",
+//                 email: auth_session.data.user?.email ?? "",
+//                 image: auth_session.data.user?.image ?? "",
+//             });
+//         }
+//     }, [auth_session.status]);
     return (
         <Slack dir="col" className="w-full max-w-[500px]">
             <Slack dir="col" className="mb-10">
@@ -65,6 +70,10 @@ const ProfileForm = () => {
             </Slack>
             <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-5 w-full">
+                  <Avatar className="w-[65px] h-[65px]">
+                        <AvatarImage src={status === 'authenticated' ? session.user?.image as string : ""}/>
+                        <AvatarFallback>AV</AvatarFallback>
+                  </Avatar>
                     <FormField
                         control={form.control}
                         name="name"
@@ -92,55 +101,9 @@ const ProfileForm = () => {
                             </FormItem>
                         )}
                     />
-                    <div className="w-full h-[1px] bg-secondary"></div>
-                    <Slack dir="col" className="my-10">
-                        <Title level={5}>Password</Title>
-                        <Text className="text-sm">Change your password if you create one!</Text>
-                    </Slack>
-                    <FormField
-                        control={form.control}
-                        name="name"
-                        disabled
-                        render={({ field }) => (
-                            <FormItem className="flex items-center justify-start gap-5">
-                                <FormLabel className="text-nowrap w-[150px]">New Password</FormLabel>
-                                <FormControl>
-                                    <PasswordInput placeholder="Your full name" className="!m-0" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-                    <FormField
-                        control={form.control}
-                        name="name"
-                        disabled
-                        render={({ field }) => (
-                            <FormItem className="flex items-center justify-center gap-3">
-                                <FormLabel className="text-nowrap w-[150px]">Repeat Password</FormLabel>
-                                <FormControl className="!w-full">
-                                    <PasswordInput placeholder="New Password" className="!m-0 !w-full" {...field} />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
-                        )}
-                    />
-
-                    <div className="w-full h-[1px] bg-secondary"></div>
-                    <Slack dir="col" className="my-10">
-                        <Title level={5}>Profile Picture</Title>
-                        <Text className="text-sm">Change your Profile if you upload!</Text>
-                    </Slack>
-                    <InputFileWithPreview onFileSelect={setProfilePicture} label="Upload New Profile" />
-                    <Button type="submit" className="bg-accent text-black font-700 w-full hover:bg-accent/80">
-                        {false ? <Loader2 className="animate-spin" /> : "Save Chanages"}
-                    </Button>
+                    {/* <InputFileWithPreview onFileSelect={setProfilePicture} label="Upload New Profile" /> */}
                 </form>
             </Form>
-
-            <Link href={"/register"} className="mt-4">
-                <Text className="text-chart-1">Create Account</Text>
-            </Link>
         </Slack>
     );
 };
