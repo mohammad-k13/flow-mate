@@ -14,10 +14,10 @@ import { Button } from "@/components/ui/button";
 
 const WorkflowCard = () => {
     return (
-        <section className="w-[95%] max-w-[325px] h-[] shadow-border-3 p-3 py-4">
+        <section className="w-[95%] max-w-[325px] shadow-border-3 p-3 py-4 group hover:border-[#EE2A69] hover:shadow-[#EE2A69] transition-colors hover:bg-[#EE2A69]/10">
             <header className="w-full">
                 <Slack className="w-full" justify="between">
-                    <Badge className="p-3 py-2 text-sm rounded-full">
+                    <Badge className="p-3 py-2 text-sm rounded-full group-hover:bg-white transition-colors">
                         {new Date().toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" })}
                     </Badge>
                     <Slack gap={3}>
